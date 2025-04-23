@@ -75,41 +75,77 @@ activities = {
         "max_participants": 12,
         "participants": ["oliver@mergington.edu", "isabella@mergington.edu"]
     },
-    "Swimming Team": {
-        "description": "Train in swimming techniques and compete in meets",
-        "schedule": "Tuesdays and Thursdays, 5:00 PM - 6:30 PM",
-        "max_participants": 20,
-        "participants": ["james@mergington.edu", "grace@mergington.edu"]
-    },
     "Tennis Club": {
-        "description": "Learn and practice tennis skills",
-        "schedule": "Mondays and Wednesdays, 4:00 PM - 5:30 PM",
+        "description": "Learn and practice tennis skills with peers",
+        "schedule": "Tuesdays and Thursdays, 3:00 PM - 4:30 PM",
         "max_participants": 10,
+        "participants": ["harry@mergington.edu", "grace@mergington.edu"]
+    },
+    "Swimming Team": {
+        "description": "Train and compete in swimming events",
+        "schedule": "Mondays and Wednesdays, 4:00 PM - 5:30 PM",
+        "max_participants": 15,
         "participants": ["chloe@mergington.edu", "liam@mergington.edu"]
     },
     "Photography Club": {
-        "description": "Learn photography techniques and work on creative projects",
+        "description": "Learn photography techniques and capture creative moments",
         "schedule": "Fridays, 3:30 PM - 5:00 PM",
-        "max_participants": 15,
-        "participants": ["ella@mergington.edu", "henry@mergington.edu"]
+        "max_participants": 12,
+        "participants": ["ella@mergington.edu", "james@mergington.edu"]
     },
     "Music Band": {
-        "description": "Join the school band and practice musical instruments",
-        "schedule": "Tuesdays and Thursdays, 3:30 PM - 5:00 PM",
-        "max_participants": 25,
-        "participants": ["harper@mergington.edu", "benjamin@mergington.edu"]
+        "description": "Play instruments and perform in school events",
+        "schedule": "Wednesdays, 4:00 PM - 5:30 PM",
+        "max_participants": 20,
+        "participants": ["lucy@mergington.edu", "henry@mergington.edu"]
     },
     "Science Club": {
-        "description": "Explore scientific experiments and concepts",
-        "schedule": "Wednesdays, 4:00 PM - 5:30 PM",
+        "description": "Explore scientific experiments and projects",
+        "schedule": "Thursdays, 3:30 PM - 5:00 PM",
         "max_participants": 15,
-        "participants": ["zoe@mergington.edu", "logan@mergington.edu"]
+        "participants": ["amelia@mergington.edu", "logan@mergington.edu"]
     },
     "Book Club": {
-        "description": "Discuss and analyze books with fellow students",
-        "schedule": "Mondays, 3:30 PM - 4:30 PM",
+        "description": "Discuss and share insights on various books",
+        "schedule": "Mondays, 4:00 PM - 5:00 PM",
         "max_participants": 10,
-        "participants": ["nora@mergington.edu", "elijah@mergington.edu"]
+        "participants": ["mia@mergington.edu", "oliver@mergington.edu"]
+    },
+    "Volleyball Team": {
+        "description": "Practice volleyball and compete in school tournaments",
+        "schedule": "Tuesdays and Thursdays, 4:00 PM - 5:30 PM",
+        "max_participants": 16,
+        "participants": ["emma@mergington.edu", "noah@mergington.edu"]
+    },
+    "Track and Field": {
+        "description": "Train for track and field events and competitions",
+        "schedule": "Mondays, Wednesdays, Fridays, 3:00 PM - 4:30 PM",
+        "max_participants": 25,
+        "participants": ["liam@mergington.edu", "ava@mergington.edu"]
+    },
+    "Painting Workshop": {
+        "description": "Learn painting techniques and create your own artwork",
+        "schedule": "Wednesdays, 3:30 PM - 5:00 PM",
+        "max_participants": 12,
+        "participants": ["sophia@mergington.edu", "jack@mergington.edu"]
+    },
+    "Dance Class": {
+        "description": "Learn various dance styles and perform in school events",
+        "schedule": "Fridays, 4:00 PM - 5:30 PM",
+        "max_participants": 20,
+        "participants": ["mia@mergington.edu", "lucas@mergington.edu"]
+    },
+    "Robotics Club": {
+        "description": "Build and program robots for competitions",
+        "schedule": "Tuesdays and Thursdays, 3:30 PM - 5:00 PM",
+        "max_participants": 15,
+        "participants": ["amelia@mergington.edu", "logan@mergington.edu"]
+    },
+    "History Club": {
+        "description": "Explore historical events and discuss their impact",
+        "schedule": "Mondays, 4:00 PM - 5:30 PM",
+        "max_participants": 10,
+        "participants": ["oliver@mergington.edu", "isabella@mergington.edu"]
     }
 }
 
@@ -127,6 +163,10 @@ def get_activities():
 @app.post("/activities/{activity_name}/signup")
 def signup_for_activity(activity_name: str, email: str):
     """Sign up a student for an activity"""
+
+    # Validate if the student is already signed up
+    if email in activities[activity_name]["participants"]:
+        raise HTTPException(status_code=400, detail="Student is already signed up for this activity")
     # Validate activity exists
     if activity_name not in activities:
         raise HTTPException(status_code=404, detail="Activity not found")
@@ -136,9 +176,9 @@ def signup_for_activity(activity_name: str, email: str):
 
     # Check if the student is already signed upe student is already signed up
     if email in activity["participants"]:
-        raise HTTPException(status_code=400, detail="Student is already signed up for this activity")already signed up for this activity")
+        raise HTTPException(status_code=400, detail="Student is already signed up for this activity")
 
     # Add student
     activity["participants"].append(email)
 
-    return {"message": f"Signed up {email} for {activity_name}"}    return {"message": f"Signed up {email} for {activity_name}"}
+    return {"message": f"Signed up {email} for {activity_name}"}  
